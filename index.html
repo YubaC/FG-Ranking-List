@@ -119,7 +119,7 @@
                 // 排序moneyRankingList
                 moneyRankingList = Object.entries(moneyRankingList).sort((a, b) => b[1] - a[1]);
                 // 将moneyRankingList的值传入到财产排行榜的table中
-                insertTab("moneyTab", "财产", moneyRankingList)
+                insertTab("moneyTab", "财产", moneyRankingList, " 元");
 
                 // !计算运动量排行榜
 
@@ -131,7 +131,7 @@
                 }
                 // 排序
                 exerciseRankingList = Object.entries(exerciseRankingList).sort((a, b) => b[1] - a[1]);
-                insertTab("exerciseTab", "运动量", exerciseRankingList);
+                insertTab("exerciseTab", "运动量", exerciseRankingList, " px");
 
                 // !计算在任时间排行榜
 
@@ -143,7 +143,7 @@
                 }
                 // 排序
                 daysRankingList = Object.entries(daysRankingList).sort((a, b) => b[1] - a[1]);
-                insertTab("daysTab", "在任时间", daysRankingList);
+                insertTab("daysTab", "在任时间", daysRankingList, " 天");
 
                 // !计算幸福指数排行榜
 
@@ -155,7 +155,7 @@
                 }
                 // 排序
                 moodRankingList = Object.entries(moodRankingList).sort((a, b) => b[1] - a[1]);
-                insertTab("moodTab", "幸福指数", moodRankingList);
+                insertTab("moodTab", "幸福指数", moodRankingList, "/100");
 
                 // !计算基建排行榜
 
@@ -167,7 +167,7 @@
                 }
                 // 排序
                 baseRankingList = Object.entries(baseRankingList).sort((a, b) => b[1] - a[1]);
-                insertTab("baseTab", "基建", baseRankingList);
+                insertTab("baseTab", "基建", baseRankingList, "/20");
 
                 // !计算履历排行榜
 
@@ -180,7 +180,7 @@
                 // 排序
                 stainRankingList = Object.entries(stainRankingList).sort((a, b) => b[1] - a[1]);
                 stainRankingList = stainRankingList.reverse();
-                insertTab("stainTab", "履历", stainRankingList);
+                insertTab("stainTab", "履历污点", stainRankingList, "/100");
 
                 // !计算招生数排行榜
 
@@ -192,7 +192,7 @@
                 }
                 // 排序
                 enrollRankingList = Object.entries(enrollRankingList).sort((a, b) => b[1] - a[1]);
-                insertTab("enrollTab", "招生数", enrollRankingList);
+                insertTab("enrollTab", "总班级数", enrollRankingList, "");
 
 
                 $(".nav").children().eq(1).click();
@@ -200,13 +200,13 @@
             });
         });
 
-        function insertTab(tabId, name, tabContent) {
+        function insertTab(tabId, name, tabContent, unit) {
             // 将tabContent的值传入到tabName的table中
             tableHTML = '<table class="table table-striped">';
             tableHTML += `<thead><tr><th>排名</th><th>学校名</th><th>${name}</th></tr></thead>`;
             tableHTML += '<tbody>';
             for (var i = 0; i < tabContent.length; i++) {
-                tableHTML += `<tr><td>${i + 1}</td><td>${tabContent[i][0]}</td><td>${tabContent[i][1]}</td></tr>`;
+                tableHTML += `<tr><td>${i + 1}</td><td>${tabContent[i][0]}</td><td>${tabContent[i][1]+unit}</td></tr>`;
             }
             tableHTML += '</tbody>';
             tableHTML += '</table>';
