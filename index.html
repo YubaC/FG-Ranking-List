@@ -71,13 +71,38 @@
     </div>
 
     <h4 align="center"><a href="https://yubac.github.io/fg">返回雾城</a></h4>
+    <p align="center">提示：排行榜的刷新可能较慢。</p>
 
     <script src="assets/js/jquery-3.6.3.min.js"></script>
     <script>
+        // base64加密的函数
+        function b64EncodeUnicode(str) {
+            return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function toSolidBytes(match, p1) {
+                return String.fromCharCode('0x' + p1);
+            }));
+        }
+
+        // base64解密的函数
+        function b64DecodeUnicode(str) {
+            return decodeURIComponent(atob(str).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+        }
+
+
         $(document).ready(function() {
             // 读取rankingList.json
             // rankingList的一个示例为{"list":[{"schoolName":"雾高一号","data":{"version":"0.0.9","todayInTerm":1,"grade1":10,"grade1Special":1,"grade2":10,"grade2Special":1,"grade3":10,"grade3Special":1,"stain":0,"complainDays":0,"expect1":30000,"expect2":30000,"complainedBefore":false,"diningHallLevel":5,"dormitoryLevel":5,"day":1,"mood":100,"money":90000,"speed":1,"path_list":[["168.9","196.9"]],"point_list":["circle#exerciseStart"]}}]}
-            $.getJSON("https://cdn.jsdelivr.net/gh/YubaC/FG-Ranking-List@latest/rankingList.json", function(data) {
+            var fileName = "rankingList.json"
+                // 获取fileName的sha
+            fetch("https://api.github.com/repos/YubaC/FG-Ranking-List/contents/" + fileName, {
+                method: "get",
+            }).then((res) => {
+                // console.log(res);
+                return res.json();
+            }).then((data) => {
+                return (JSON.parse(b64DecodeUnicode(data.content)));
+            }).then((data) => {
                 console.log(data);
                 // !计算财产排行榜
                 // 方法是：遍历data.list内各个学校的money值然后进行排序
