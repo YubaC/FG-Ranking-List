@@ -127,7 +127,7 @@
 
                 // 首先提取出data.list内的exercise值，添加到exerciseRankingList中
                 for (var i = 0; i < data.list.length; i++) {
-                    exerciseRankingList[data.list[i].schoolName] = getTotalDistance(data.list[i].data.path_list);
+                    exerciseRankingList[data.list[i].schoolName] = Math.round(getTotalDistance(data.list[i].data.path_list));
                 }
                 // 排序
                 exerciseRankingList = Object.entries(exerciseRankingList).sort((a, b) => b[1] - a[1]);
