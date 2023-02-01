@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>高校排行榜</title>
+    <link href="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/5.1.1/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+    <h1 align="center">高校排行榜</h1>
+
+    <!-- Nav pills -->
+    <ul class="nav nav-pills justify-content-center" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" data-bs-toggle="pill" href="#money">财产</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="pill" href="#exercise">运动量</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="pill" href="#days">在任时间</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="pill" href="#mood">幸福指数</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="pill" href="#base">基建</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="pill" href="#stain">履历</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="pill" href="#enroll">招生数</a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div id="money" class="container tab-pane fade active show"><br>
+            <h3 align="center">财产排行榜</h3>
+            <div id="moneyTab"></div>
+        </div>
+        <div id="exercise" class="container tab-pane fade"><br>
+            <h3 align="center">运动量排行榜</h3>
+            <div id="exerciseTab"></div>
+        </div>
+        <div id="days" class="container tab-pane fade"><br>
+            <h3 align="center">在任时间排行榜</h3>
+            <div id="daysTab"></div>
+        </div>
+        <div id="mood" class="container tab-pane fade"><br>
+            <h3 align="center">幸福指数排行榜</h3>
+            <div id="moodTab"></div>
+        </div>
+        <div id="base" class="container tab-pane fade"><br>
+            <h3 align="center">基建排行榜</h3>
+            <div id="baseTab"></div>
+        </div>
+        <div id="stain" class="container tab-pane fade"><br>
+            <h3 align="center">履历排行榜</h3>
+            <div id="stainTab"></div>
+        </div>
+        <div id="enroll" class="container tab-pane fade"><br>
+            <h3 align="center">招生数排行榜</h3>
+            <div id="enrollTab"></div>
+        </div>
+    </div>
+
+    <script src="assets/js/jquery-3.6.3.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // 读取rankingList.json
+            // rankingList的一个示例为{"list":[{"schoolName":"雾高一号","data":{"version":"0.0.9","todayInTerm":1,"grade1":10,"grade1Special":1,"grade2":10,"grade2Special":1,"grade3":10,"grade3Special":1,"stain":0,"complainDays":0,"expect1":30000,"expect2":30000,"complainedBefore":false,"diningHallLevel":5,"dormitoryLevel":5,"day":1,"mood":100,"money":90000,"speed":1,"path_list":[["168.9","196.9"]],"point_list":["circle#exerciseStart"]}}]}
+            $.getJSON("rankingList.json", function(data) {
+                console.log(data);
+                // !计算财产排行榜
+                // 方法是：遍历data.list内各个学校的money值然后进行排序
+                // 排序后的结果为：[{"schoolName":"雾高","money":90000},{"schoolName":"雾高一号","money":80000}]
+                // 将结果存储在一个名为moneyRankingList的变量中
+                // 之后将moneyRankingList的值传入到财产排行榜的table中
+
+                var moneyRankingList = {};
+
+                // 首先提取出data.list内的money值，添加到moneyRankingList中
+                for (var i = 0; i < data.list.length; i++) {
+                    moneyRankingList[data.list[i].schoolName] = data.list[i].data.money;
+                }
+                // 排序moneyRankingList
+                moneyRankingList = Object.entries(moneyRankingList).sort((a, b) => b[1] - a[1]);
+                // 将moneyRankingList的值传入到财产排行榜的table中
+                insertTab("moneyTab", "财产", moneyRankingList)
+
+                // !计算运动量排行榜
+
+                var exerciseRankingList = {};
+
+                // 首先提取出data.list内的exercise值，添加到exerciseRankingList中
+                for (var i = 0; i < data.list.length; i++) {
+                    exerciseRankingList[data.list[i].schoolName] = getTotalDistance(data.list[i].data.path_list);
+                }
+                // 排序
+                exerciseRankingList = Object.entries(exerciseRankingList).sort((a, b) => b[1] - a[1]);
+                insertTab("exerciseTab", "运动量", exerciseRankingList);
+
+                // !计算在任时间排行榜
+
+                var daysRankingList = {};
+
+                // 首先提取出data.list内的days值，添加到daysRankingList中
+                for (var i = 0; i < data.list.length; i++) {
+                    daysRankingList[data.list[i].schoolName] = data.list[i].data.todayInTerm;
+                }
+                // 排序
+                daysRankingList = Object.entries(daysRankingList).sort((a, b) => b[1] - a[1]);
+                insertTab("daysTab", "在任时间", daysRankingList);
+
+                // !计算幸福指数排行榜
+
+                var moodRankingList = {};
+
+                // 首先提取出data.list内的mood值，添加到moodRankingList中
+                for (var i = 0; i < data.list.length; i++) {
+                    moodRankingList[data.list[i].schoolName] = data.list[i].data.mood;
+                }
+                // 排序
+                moodRankingList = Object.entries(moodRankingList).sort((a, b) => b[1] - a[1]);
+                insertTab("moodTab", "幸福指数", moodRankingList);
+
+                // !计算基建排行榜
+
+                var baseRankingList = {};
+
+                // 首先提取出data.list内的diningHallLevel和dormitoryLevel的值并求和，添加到baseRankingList中
+                for (var i = 0; i < data.list.length; i++) {
+                    baseRankingList[data.list[i].schoolName] = data.list[i].data.diningHallLevel + data.list[i].data.dormitoryLevel;
+                }
+                // 排序
+                baseRankingList = Object.entries(baseRankingList).sort((a, b) => b[1] - a[1]);
+                insertTab("baseTab", "基建", baseRankingList);
+
+                // !计算履历排行榜
+
+                var stainRankingList = {};
+
+                // 首先提取出data.list内的stain的值，添加到stainRankingList中
+                for (var i = 0; i < data.list.length; i++) {
+                    stainRankingList[data.list[i].schoolName] = data.list[i].data.stain;
+                }
+                // 排序
+                stainRankingList = Object.entries(stainRankingList).sort((a, b) => b[1] - a[1]);
+                stainRankingList = stainRankingList.reverse();
+                insertTab("stainTab", "履历", stainRankingList);
+
+                // !计算招生数排行榜
+
+                var enrollRankingList = {};
+
+                // 首先提取出data.list内的grade1/2/3和grade1/2/3Special的值并求和，添加到enrollRankingList中
+                for (var i = 0; i < data.list.length; i++) {
+                    enrollRankingList[data.list[i].schoolName] = data.list[i].data.grade1 + data.list[i].data.grade2 + data.list[i].data.grade3 + data.list[i].data.grade1Special + data.list[i].data.grade2Special + data.list[i].data.grade3Special;
+                }
+                // 排序
+                enrollRankingList = Object.entries(enrollRankingList).sort((a, b) => b[1] - a[1]);
+                insertTab("enrollTab", "招生数", enrollRankingList);
+
+
+                $(".nav").children().eq(1).click();
+
+            });
+        });
+
+        function insertTab(tabId, name, tabContent) {
+            // 将tabContent的值传入到tabName的table中
+            tableHTML = '<table class="table table-striped">';
+            tableHTML += `<thead><tr><th>排名</th><th>学校名</th><th>${name}</th></tr></thead>`;
+            tableHTML += '<tbody>';
+            for (var i = 0; i < tabContent.length; i++) {
+                tableHTML += `<tr><td>${i + 1}</td><td>${tabContent[i][0]}</td><td>${tabContent[i][1]}</td></tr>`;
+            }
+            tableHTML += '</tbody>';
+            tableHTML += '</table>';
+            $(`#${tabId}`).html(tableHTML);
+        }
+
+        // 获取总跑操路程（px）
+        function getTotalDistance(path_list) {
+            var l = 0;
+            for (i = 1; i < path_list.length; i++) {
+                l += ((parseFloat(path_list[i][0]) - parseFloat(path_list[i - 1][0])) ** 2 + (parseFloat(path_list[i]
+                    [
+                        1
+                    ]) - parseFloat(path_list[i - 1][1])) ** 2) ** 0.5;
+            }
+            return l;
+        }
+    </script>
+</body>
+
+</html>
