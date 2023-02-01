@@ -70,12 +70,14 @@
         </div>
     </div>
 
+    <h4><a href="https://yubac.github.io/fg">返回雾城</a></h4>
+
     <script src="assets/js/jquery-3.6.3.min.js"></script>
     <script>
         $(document).ready(function() {
             // 读取rankingList.json
             // rankingList的一个示例为{"list":[{"schoolName":"雾高一号","data":{"version":"0.0.9","todayInTerm":1,"grade1":10,"grade1Special":1,"grade2":10,"grade2Special":1,"grade3":10,"grade3Special":1,"stain":0,"complainDays":0,"expect1":30000,"expect2":30000,"complainedBefore":false,"diningHallLevel":5,"dormitoryLevel":5,"day":1,"mood":100,"money":90000,"speed":1,"path_list":[["168.9","196.9"]],"point_list":["circle#exerciseStart"]}}]}
-            $.getJSON("rankingList.json", function(data) {
+            $.getJSON("https://gcore.jsdelivr.net/gh/YubaC/FG-Ranking-List@latest/rankingList.json", function(data) {
                 console.log(data);
                 // !计算财产排行榜
                 // 方法是：遍历data.list内各个学校的money值然后进行排序
