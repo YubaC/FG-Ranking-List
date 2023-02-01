@@ -1,9 +1,0 @@
-name: Enable Auto Merge
-on:
-  workflow_dispatch:
-
-jobs:
-  OK:
-    runs-on: ubuntu-latest
-    steps:
-      - run: echo ok
