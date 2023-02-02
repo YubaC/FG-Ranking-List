@@ -1,1 +1,44 @@
-{"list":[{"schoolName":"雾都一葛","data":{"version":"0.0.9","todayInTerm":4,"grade1":10,"grade1Special":1,"grade2":10,"grade2Special":1,"grade3":10,"grade3Special":1,"stain":0,"complainDays":0,"expect1":30000,"expect2":30000,"complainedBefore":false,"diningHallLevel":5,"dormitoryLevel":5,"day":4,"mood":69.69658877728817,"money":-12808,"speed":5.799999999999996,"path_list":[["168.9","196.9"],["209.2","175.1"],["210.1","58"],["424.7","58"],["424.7","251.1"],["168.9","223.4"]],"point_list":["circle#exerciseStart","g#points > circle:nth-child(16)","g#points > circle:nth-child(13)","g#points > circle:nth-child(14)","g#points > circle:nth-child(5)","circle#exerciseEnd"]}},{"schoolName":"冰箱","data":{"version":"0.0.9","todayInTerm":2,"grade1":10,"grade1Special":1,"grade2":10,"grade2Special":1,"grade3":10,"grade3Special":1,"stain":0,"complainDays":0,"expect1":30000,"expect2":30000,"complainedBefore":false,"diningHallLevel":5,"dormitoryLevel":5,"day":150,"mood":100,"money":80000,"speed":1,"path_list":[["168.9","196.9"]],"point_list":["circle#exerciseStart"]}}]}
+{
+  "list": [
+    {
+      "schoolName": "雾都一葛",
+      "data": {
+        "version": "0.0.9",
+        "todayInTerm": 4,
+        "grade1": 10,
+        "grade1Special": 1,
+        "grade2": 10,
+        "grade2Special": 1,
+        "grade3": 10,
+        "grade3Special": 1,
+        "stain": 0,
+        "complainDays": 0,
+        "expect1": 30000,
+        "expect2": 30000,
+        "complainedBefore": false,
+        "diningHallLevel": 5,
+        "dormitoryLevel": 5,
+        "day": 4,
+        "mood": 69.69658877728817,
+        "money": -12808,
+        "speed": 5.799999999999996,
+        "path_list": [
+          ["168.9", "196.9"],
+          ["209.2", "175.1"],
+          ["210.1", "58"],
+          ["424.7", "58"],
+          ["424.7", "251.1"],
+          ["168.9", "223.4"]
+        ],
+        "point_list": [
+          "circle#exerciseStart",
+          "g#points > circle:nth-child(16)",
+          "g#points > circle:nth-child(13)",
+          "g#points > circle:nth-child(14)",
+          "g#points > circle:nth-child(5)",
+          "circle#exerciseEnd"
+        ]
+      }
+    }
+  ]
+}
