@@ -213,16 +213,17 @@
                 // 排序
                 enrollRankingList = Object.entries(enrollRankingList).sort((a, b) => b[1] - a[1]);
                 insertTab("enrollTab", "总班级数", enrollRankingList, "");
-
-
-                $(".nav").children().eq(1).click();
-
             });
 
             // 请求https://api.github.com/repos/YubaC/FG-Ranking-List
             // 获取pushed_at，内容格式为2021-01-01T00:00:00Z
             // 然后转换为UTC+8的时间格式
-            $.get("https://api.github.com/repos/YubaC/FG-Ranking-List", function(data) {
+            fetch("https://api.github.com/repos/YubaC/FG-Ranking-List", {
+                method: "get",
+            }).then((res) => {
+                // console.log(res);
+                return res.json();
+            }).then((data) => {
                 var time = new Date(data.pushed_at);
                 $("#updateTime").html("Last updated on " + time.toLocaleString());
             });
