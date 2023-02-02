@@ -151,7 +151,7 @@
 
                 // 首先提取出data.list内的mood值，添加到moodRankingList中
                 for (var i = 0; i < data.list.length; i++) {
-                    moodRankingList[data.list[i].schoolName] = data.list[i].data.mood;
+                    moodRankingList[data.list[i].schoolName] = Math.round(data.list[i].data.mood);
                 }
                 // 排序
                 moodRankingList = Object.entries(moodRankingList).sort((a, b) => b[1] - a[1]);
