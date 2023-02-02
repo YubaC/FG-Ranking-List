@@ -146,7 +146,7 @@
 
                 // 首先提取出data.list内的days值，添加到daysRankingList中
                 for (var i = 0; i < data.list.length; i++) {
-                    daysRankingList[data.list[i].schoolName] = data.list[i].data.todayInTerm;
+                    daysRankingList[data.list[i].schoolName] = data.list[i].data.day;
                 }
                 // 排序
                 daysRankingList = Object.entries(daysRankingList).sort((a, b) => b[1] - a[1]);
