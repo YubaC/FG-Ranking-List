@@ -155,6 +155,18 @@
                 }
                 // 排序
                 moodRankingList = Object.entries(moodRankingList).sort((a, b) => b[1] - a[1]);
+
+                // 如果里面的格式为??e??，就使用科学计数法表示为??x10<sup>??</sup>
+                for (var i = 0; i < moodRankingList.length; i++) {
+                    if (moodRankingList[i][1].toString().indexOf("e") != -1) {
+                        var temp = moodRankingList[i][1].toString().split("e");
+                        // 如果temp[1]的开头是+就去除它
+                        if (temp[1].indexOf("+") == 0) {
+                            temp[1] = temp[1].substring(1);
+                        }
+                        moodRankingList[i][1] = temp[0] + "x10<sup>" + temp[1] + "</sup>";
+                    }
+                }
                 insertTab("moodTab", "幸福指数", moodRankingList, "/100");
 
                 // !计算基建排行榜
