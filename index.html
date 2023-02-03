@@ -43,6 +43,9 @@
         <li class="nav-item">
             <a class="nav-link" data-bs-toggle="pill" href="#enroll">招生数</a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="pill" href="#visit">参观</a>
+        </li>
     </ul>
 
     <!-- Tab panes -->
@@ -74,6 +77,10 @@
         <div id="enroll" class="container tab-pane fade"><br>
             <h3 align="center">招生数排行榜</h3>
             <div id="enrollTab"></div>
+        </div>
+        <div id="visit" class="container tab-pane fade"><br>
+            <h3 align="center">参观学校</h3>
+            <div id="visitList" class="list-group" style="text-align: center; margin: 50px 0 50px 0;"></div>
         </div>
     </div>
 
@@ -213,6 +220,9 @@
                 // 排序
                 enrollRankingList = Object.entries(enrollRankingList).sort((a, b) => b[1] - a[1]);
                 insertTab("enrollTab", "总班级数", enrollRankingList, "");
+
+                // 插入参观目录
+                insertVisitTab(data.list);
             });
 
             // TODO:由于无法及时更新，暂时不显示更新时间
@@ -253,6 +263,20 @@
                     ]) - parseFloat(path_list[i - 1][1])) ** 2) ** 0.5;
             }
             return l;
+        }
+
+        // 插入参观目录
+        function insertVisitTab(schoolsList) {
+            // 遍历schoolsList，提取学校名称
+            var schoolNameList = [];
+            for (var i = 0; i < schoolsList.length; i++) {
+                schoolNameList.push(schoolsList[i].schoolName);
+            }
+
+            // 向#visitList内插入内容
+            for (schoolName of schoolNameList) {
+                $("#visitList").append(`<a href="https://yubac.github.io/fg/index.html?onVisit=true&amp;targetSchool=${encodeURI(encodeURI(schoolName))}" class="list-group-item list-group-item-action">${schoolName}</a>`);
+            }
         }
     </script>
 </body>
